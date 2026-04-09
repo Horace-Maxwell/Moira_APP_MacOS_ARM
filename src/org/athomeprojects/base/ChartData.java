@@ -3269,18 +3269,20 @@ public class ChartData {
                         Point dim = null;
                         draw.setFontSizeOverride(font_size);
                         int x = 0, y = 0;
+                        int height = 0;
                         for (int i = 0; i < 2; i++) {
                             dim = draw.drawAlignStringHoriz(
                                     (String) aspects[0], x, y,
                                     (String) aspects[1], null, i == 0);
-                            int height = draw.getFontHeight();
+                            height = draw.getFontHeight();
                             x = diagram_size.x - height - dim.x;
                             y = height;
                         }
                         int asc_color = draw.getColor("chart_asc_mk_color",
                                 use_bw);
                         draw.setForeground(asc_color);
-                        draw.frameTable(1, x, y, dim.x, dim.y,
+                        int table_offset = (int) (0.3 * height + 0.5);
+                        draw.frameTable(1, x, y - table_offset, dim.x, dim.y,
                                 (LinkedList) aspects[2],
                                 (LinkedList) aspects[3]);
                         draw.setFontSizeOverride(0);

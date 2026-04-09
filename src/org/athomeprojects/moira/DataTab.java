@@ -41,6 +41,7 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
@@ -56,6 +57,9 @@ class DataTab extends BaseTab {
     private final int SMALL_MARGIN = 5;
 
     private final int LARGE_MARGIN = 10;
+
+    private static final String[] MONOSPACED_FONT_NAMES = { "Menlo",
+            "Monaco", "Andale Mono", "Courier New", "Courier" };
 
     static private int hilite_offset;
 
@@ -387,7 +391,13 @@ class DataTab extends BaseTab {
         int size = Resource.getSwtDataFontSize();
         if (small_font)
             size = Math.min(Resource.getSwtSmallDataFontSize(), size);
-        font = new Font(Display.getCurrent(),  "Dialog.bold", size,
+        String font_name = wrap ? FontMap.getSwtFontName()
+                : getMonospacedFontName();
+        if (font_name == null)
+            font_name = FontMap.getSwtFontName();
+        if (font_name == null)
+            font_name = "Dialog.bold";
+        font = new Font(Display.getCurrent(), font_name, size,
                 MenuFolder.getSwtFontStyle());
         int height = font.getFontData()[0].getHeight();
         ScrollBar bar = scroll.getVerticalBar();
@@ -404,6 +414,22 @@ class DataTab extends BaseTab {
         Color bg_color = ColorManager.getColor(type + "_background_color");
         text.setBackground(bg_color);
         margin.setBackground(bg_color);
+    }
+
+    private String getMonospacedFontName()
+    {
+        FontData[] font_data = Display.getCurrent().getFontList(null, true);
+        if (font_data != null) {
+            for (int i = 0; i < MONOSPACED_FONT_NAMES.length; i++) {
+                String preferred = MONOSPACED_FONT_NAMES[i];
+                for (int j = 0; j < font_data.length; j++) {
+                    String name = font_data[j].getName();
+                    if (name.equalsIgnoreCase(preferred))
+                        return name;
+                }
+            }
+        }
+        return null;
     }
 
     public void clear()

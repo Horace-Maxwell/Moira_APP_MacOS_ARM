@@ -877,6 +877,7 @@ class ChartTab {
             data.setEclipseData(entry.eclipse_data);
             getDiagram().redraw();
             desc[0].redraw();
+            desc[1].redraw();
             FolderToolBar.updateFolderBarState();
         }
     }
@@ -1135,16 +1136,16 @@ class ChartTab {
             }
         } else {
             String str = data.getYearInfo(use_birth, null);
-            if (str != null) {
-                setFittedFontInCanvas(gc, "year", desc_scroll.getSize());
-                Point d_size = DrawSWT.drawStringVert(gc, str, 0, 0, true);
-                desc_scroll.setMinSize((int) (DESC_SCROLL_SCALER * d_size.x),
-                        (int) (DESC_SCROLL_SCALER * d_size.y));
-                Point c_size = canvas.getSize();
-                int x = c_size.x - ((c_size.x - d_size.x) / 2);
-                int y = (c_size.y - d_size.y) / 2;
-                DrawSWT.drawStringVert(gc, str, x, y, false);
-            }
+            if (str == null)
+                return;
+            setFittedFontInCanvas(gc, "year", desc_scroll.getSize());
+            Point d_size = DrawSWT.drawStringVert(gc, str, 0, 0, true);
+            desc_scroll.setMinSize((int) (DESC_SCROLL_SCALER * d_size.x),
+                    (int) (DESC_SCROLL_SCALER * d_size.y));
+            Point c_size = canvas.getSize();
+            int x = c_size.x - ((c_size.x - d_size.x) / 2);
+            int y = (c_size.y - d_size.y) / 2;
+            DrawSWT.drawStringVert(gc, str, x, y, false);
         }
     }
 
@@ -1684,12 +1685,29 @@ class ChartTab {
             ui_diagram.updateColor(data.getNoColor());
         }
         Color color = ColorManager.getColor("chart_window_bg_color");
+        Color text_color = getContrastingTextColor(color);
         if (color != ui_diagram.getBackground()) {
-            for (int i = 0; i < desc.length; i++)
+            for (int i = 0; i < desc.length; i++) {
                 desc[i].setBackground(color);
+                desc[i].setForeground(text_color);
+            }
             ui_diagram.setBackground(color);
             diagram.setBackground(color);
+        } else {
+            for (int i = 0; i < desc.length; i++) {
+                desc[i].setForeground(text_color);
+            }
         }
+    }
+
+    private Color getContrastingTextColor(Color background)
+    {
+        int red = background.getRed();
+        int green = background.getGreen();
+        int blue = background.getBlue();
+        int brightness = red * 299 + green * 587 + blue * 114;
+        return ColorManager.getColor((brightness >= 128000) ? 0x000000
+                : 0xffffff);
     }
 
     public void updateAngleMarker(int x, int y)

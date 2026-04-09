@@ -18,7 +18,7 @@ This repository turns the classic Moira Java/SWT desktop app into something you 
 [![Latest Release](https://img.shields.io/badge/GitHub-Latest%20Release-18181b?style=for-the-badge&logo=github)](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases/latest)
 [![Chinese Docs](https://img.shields.io/badge/Docs-中文完整版-0f766e?style=for-the-badge)](./README.zh-CN.md)
 [![English Docs](https://img.shields.io/badge/Docs-English%20Guide-2563eb?style=for-the-badge)](./README.en.md)
-[![Release Notes](https://img.shields.io/badge/Notes-v1.50.0-7c3aed?style=for-the-badge)](./docs/releases/v1.50.0.md)
+[![Release Notes](https://img.shields.io/badge/Notes-v1.50.1-7c3aed?style=for-the-badge)](./docs/releases/v1.50.1.md)
 
 </div>
 
@@ -74,7 +74,7 @@ If you want to build from source: start with [README.zh-CN.md](./README.zh-CN.md
 
 - [README.zh-CN.md](./README.zh-CN.md): 中文完整说明，适合直接跟着做。 English: the full Chinese guide if you want the most complete walkthrough first.
 - [README.en.md](./README.en.md): 英文构建与打包说明。 English: the dedicated English build and packaging guide.
-- [docs/releases/v1.50.0.md](./docs/releases/v1.50.0.md): 这一版发布改了什么，适合快速浏览。 English: a compact release note for this version.
+- [docs/releases/v1.50.1.md](./docs/releases/v1.50.1.md): 这一版发布改了什么，适合快速浏览。 English: a compact release note for this version.
 - [scripts/build-dev.sh](./scripts/build-dev.sh): 本地开发构建和直接启动。 English: build locally and launch the app from source.
 - [scripts/package-macos.sh](./scripts/package-macos.sh): `.app` / `.dmg` 打包，以及签名、公证入口。 English: package the macOS app and run signing or notarization.
 - [scripts/make-icns.sh](./scripts/make-icns.sh): 旧图标转 macOS `.icns`。 English: convert the legacy icon into a macOS `.icns`.

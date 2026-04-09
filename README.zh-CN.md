@@ -119,7 +119,7 @@ build/dev/Moira.sh
 输出：
 
 - `dist/Moira.app`
-- `dist/Moira-1.50.1.dmg`
+- `dist/Moira-1.50.2.dmg`
 
 ## 签名与公证
 

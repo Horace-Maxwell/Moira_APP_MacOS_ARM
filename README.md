@@ -73,7 +73,7 @@ If you want to build from source: start with [README.zh-CN.md](./README.zh-CN.md
 
 - [README.zh-CN.md](./README.zh-CN.md): 中文完整说明，适合直接跟着做。 English: the full Chinese guide if you want the most complete walkthrough first.
 - [README.en.md](./README.en.md): 英文构建与打包说明。 English: the dedicated English build and packaging guide.
-- [docs/releases/v1.50.1.md](./docs/releases/v1.50.1.md): 这一版发布改了什么，适合快速浏览。 English: a compact release note for this version.
+- [docs/releases/v1.50.2.md](./docs/releases/v1.50.2.md): 这一版发布改了什么，适合快速浏览。 English: a compact release note for this version.
 - [scripts/build-dev.sh](./scripts/build-dev.sh): 本地开发构建和直接启动。 English: build locally and launch the app from source.
 - [scripts/package-macos.sh](./scripts/package-macos.sh): `.app` / `.dmg` 打包，以及签名、公证入口。 English: package the macOS app and run signing or notarization.
 - [scripts/make-icns.sh](./scripts/make-icns.sh): 旧图标转 macOS `.icns`。 English: convert the legacy icon into a macOS `.icns`.

@@ -504,7 +504,7 @@ public class Moira {
 			close.setText(Resource.getString("tray_close"));
 			close.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent event) {
-					if (!table_tab.checkForSave())
+					if (!table_tab.checkForSaveOnClose())
 						return;
 					exit(false);
 				}
@@ -808,7 +808,7 @@ public class Moira {
 				shell.addShellListener(new ShellListener() {
 					public void shellClosed(ShellEvent e) {
 						ChartTab.hideTip();
-						if (!closing && !table_tab.checkForSave()) {
+						if (!closing && !table_tab.checkForSaveOnClose()) {
 							e.doit = false;
 							return;
 						}

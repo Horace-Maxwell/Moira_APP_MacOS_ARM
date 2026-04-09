@@ -202,38 +202,43 @@ class DataTab extends BaseTab {
         text.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent event)
             {
-                if (event.stateMask == SWT.CONTROL) {
-                    switch (event.character) {
-                        case 0x01: // Ctrl-A
-                            text.selectAll();
+                if (hasPrimaryModifier(event)) {
+                    char shortcut = getShortcutKey(event);
+                    boolean shift = (event.stateMask & SWT.SHIFT) == SWT.SHIFT;
+                    switch (shortcut) {
+                        case 'a':
+                            if (!shift)
+                                text.selectAll();
                             break;
-                        case 0x19: // Ctrl-Y
-                            text.redo();
+                        case 'y':
+                            if (!shift)
+                                text.redo();
                             break;
-                        case 0x1a: // Ctrl-Z
-                            text.undo();
+                        case 'z':
+                            if (shift)
+                                text.redo();
+                            else
+                                text.undo();
                             break;
-                        case 0x02: // Ctrl-B
-                            if (text.getEditable())
+                        case 'b':
+                            if (!shift && text.getEditable())
                                 text.toggleBold();
                             break;
-                        case 0x08: // Ctrl-H
-                            if (text.getEditable()) {
+                        case 'h':
+                            if (!shift && text.getEditable()) {
                                 text.toggleHilite(hilite_offset);
                                 hilite_offset = 0; // reset to 0
                             }
                             break;
-                        case 0x03: // Ctrl-C
-                        case 0x16: // Ctrl-V
-                        case 0x18: // Ctrl-X
+                        case 'c':
+                        case 'v':
+                        case 'x':
                             break;
                         default:
                             if (folder_index == TabManager.WINDOW_FOLDER
-                                    && Character
-                                            .isLowerCase((char) event.keyCode)) {
+                                    && Character.isLowerCase(shortcut)) {
                                 Moira.getShell().setFocus();
-                                Moira.postKeyEvent((char) event.keyCode,
-                                        SWT.CONTROL);
+                                Moira.postKeyEvent(shortcut, SWT.CONTROL);
                             }
                             break;
                     }
@@ -296,6 +301,21 @@ class DataTab extends BaseTab {
         });
         updateAttribute(false);
         return container;
+    }
+
+    private boolean hasPrimaryModifier(KeyEvent event)
+    {
+        return (event.stateMask & SWT.MOD1) == SWT.MOD1;
+    }
+
+    private char getShortcutKey(KeyEvent event)
+    {
+        char key = Character.toLowerCase(event.character);
+        if (key >= 0x01 && key <= 0x1a)
+            return (char) ('a' + key - 0x01);
+        if (key > 0)
+            return key;
+        return Character.toLowerCase((char) event.keyCode);
     }
 
     static public void toggleBold()

@@ -275,7 +275,7 @@ public class MenuFolder {
             public void widgetSelected(SelectionEvent event)
             {
                 ChartTab.hideTip();
-                if (!Moira.getTable().checkForSave())
+                if (!Moira.getTable().checkForSaveOnClose())
                     return;
                 Moira.exit(false);
             }
@@ -328,9 +328,13 @@ public class MenuFolder {
 
     public void addTextEditMenu(Menu menu, boolean read_only, boolean add_style)
     {
+        String shortcut = isMacPlatform() ? "Cmd+" : "Ctrl+";
+        String redo_shortcut = isMacPlatform() ? "Cmd+Shift+Z"
+                : "Ctrl+Y";
         if (!read_only) {
             MenuItem undo = new MenuItem(menu, SWT.NONE);
-            undo.setText(Resource.getString("edit_undo") + "\tCtrl+Z");
+            undo.setText(Resource.getString("edit_undo") + "\t" + shortcut
+                    + "Z");
             undo.setImage(ImageManager.getImage("undo_icon"));
             undo.addSelectionListener(new SelectionAdapter() {
                 public void widgetSelected(SelectionEvent event)
@@ -339,7 +343,8 @@ public class MenuFolder {
                 }
             });
             MenuItem redo = new MenuItem(menu, SWT.NONE);
-            redo.setText(Resource.getString("edit_redo") + "\tCtrl+Y");
+            redo.setText(Resource.getString("edit_redo") + "\t"
+                    + redo_shortcut);
             redo.setImage(ImageManager.getImage("redo_icon"));
             redo.addSelectionListener(new SelectionAdapter() {
                 public void widgetSelected(SelectionEvent event)
@@ -349,7 +354,8 @@ public class MenuFolder {
             });
             new MenuItem(menu, SWT.SEPARATOR);
             MenuItem cut = new MenuItem(menu, SWT.NONE);
-            cut.setText(Resource.getString("edit_cut") + "\tCtrl+X");
+            cut.setText(Resource.getString("edit_cut") + "\t" + shortcut
+                    + "X");
             cut.setImage(ImageManager.getImage("cut_icon"));
             cut.addSelectionListener(new SelectionAdapter() {
                 public void widgetSelected(SelectionEvent event)
@@ -359,7 +365,7 @@ public class MenuFolder {
             });
         }
         MenuItem copy = new MenuItem(menu, SWT.NONE);
-        copy.setText(Resource.getString("edit_copy") + "\tCtrl+C");
+        copy.setText(Resource.getString("edit_copy") + "\t" + shortcut + "C");
         copy.setImage(ImageManager.getImage("copy_icon"));
         copy.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent event)
@@ -369,7 +375,8 @@ public class MenuFolder {
         });
         if (!read_only) {
             MenuItem paste = new MenuItem(menu, SWT.NONE);
-            paste.setText(Resource.getString("edit_paste") + "\tCtrl+V");
+            paste.setText(Resource.getString("edit_paste") + "\t" + shortcut
+                    + "V");
             paste.setImage(ImageManager.getImage("paste_icon"));
             paste.addSelectionListener(new SelectionAdapter() {
                 public void widgetSelected(SelectionEvent event)
@@ -389,7 +396,8 @@ public class MenuFolder {
         }
         new MenuItem(menu, SWT.SEPARATOR);
         MenuItem select_all = new MenuItem(menu, SWT.NONE);
-        select_all.setText(Resource.getString("edit_select_all") + "\tCtrl+A");
+        select_all.setText(Resource.getString("edit_select_all") + "\t"
+                + shortcut + "A");
         select_all.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent event)
             {
@@ -399,7 +407,8 @@ public class MenuFolder {
         if (add_style) {
             new MenuItem(menu, SWT.SEPARATOR);
             MenuItem bold = new MenuItem(menu, SWT.NONE);
-            bold.setText(Resource.getString("edit_bold") + "\tCtrl+B");
+            bold.setText(Resource.getString("edit_bold") + "\t" + shortcut
+                    + "B");
             bold.addSelectionListener(new SelectionAdapter() {
                 public void widgetSelected(SelectionEvent event)
                 {
@@ -423,6 +432,11 @@ public class MenuFolder {
                 });
             }
         }
+    }
+
+    private boolean isMacPlatform()
+    {
+        return "cocoa".equals(SWT.getPlatform());
     }
 
     private void addPrefMenu(Menu menu)

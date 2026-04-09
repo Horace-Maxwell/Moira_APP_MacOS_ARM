@@ -71,6 +71,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -131,7 +132,7 @@ class TableTab {
 
     private Font font;
 
-    private Color bg_color, odd_row_bg_color, hilite_bg_color;
+    private Color bg_color, odd_row_bg_color, hilite_bg_color, grid_color;
 
     private Group group;
 
@@ -148,7 +149,10 @@ class TableTab {
 
     private String group_name, male, female, day_choice, night_choice;
 
-    private boolean name_up, place_up, birthday_up, has_both_set, need_save;
+    private boolean name_up, place_up, birthday_up, has_both_set, need_save,
+            committing_edit;
+
+    private String saved_footer_text;
 
     private String[][] column_label;
 
@@ -188,23 +192,7 @@ class TableTab {
         container.addPaintListener(new PaintListener() {
             public void paintControl(PaintEvent event)
             {
-                if (!table.isEnabled()) {
-                    edit_row = edit_col = -1;
-                    table.setRedraw(false);
-                    if (top_index >= 0 && top_index < table.getItemCount()) {
-                        showEntry(top_index, false);
-                        top_index = -1;
-                    }
-                    hideField();
-                    table.setEnabled(true);
-                    setColumnSize();
-                    setButtonEditors(false);
-                    boolean visible = num_visible_row > num_row[type];
-                    if (table.getLinesVisible() != visible)
-                        table.setLinesVisible(visible);
-                    table.update();
-                    table.setRedraw(true);
-                }
+                refreshTableView();
                 container.layout();
             }
         });
@@ -233,6 +221,12 @@ class TableTab {
             {
                 setButtonEditors(true);
                 update();
+            }
+        });
+        table.addPaintListener(new PaintListener() {
+            public void paintControl(PaintEvent event)
+            {
+                drawGridLines(event.gc);
             }
         });
         place_container = new Composite(table, SWT.NONE);
@@ -279,7 +273,7 @@ class TableTab {
                 loc.setZoneName(zone);
             }
         });
-        place_field = new Text(place_container, SWT.LEFT);
+        place_field = new Text(place_container, SWT.SINGLE | SWT.BORDER);
         place_field.setLayoutData(new GridData(GridData.FILL_BOTH));
         place_field.addModifyListener(new ModifyListener() {
             public void modifyText(ModifyEvent event)
@@ -288,7 +282,6 @@ class TableTab {
                         && edit_col < table.getColumnCount()) {
                     field_editor.getItem().setText(edit_col,
                             place_field.getText());
-                    row[edit_row].updateEntry();
                 }
             }
         });
@@ -296,10 +289,8 @@ class TableTab {
             public void focusLost(FocusEvent event)
             {
                 if (!inPlaceContainer()) {
+                    commitActiveEditor();
                     place_container.setVisible(false);
-                    String new_place = place_field.getText();
-                    if (!new_place.equals(edit_text))
-                        need_save = true;
                 }
             }
         });
@@ -309,6 +300,7 @@ class TableTab {
                 switch (event.detail) {
                     case SWT.TRAVERSE_TAB_NEXT:
                     case SWT.TRAVERSE_TAB_PREVIOUS:
+                        commitActiveEditor();
                         hideField();
                         setEditField((event.detail == SWT.TRAVERSE_TAB_NEXT) ? 1
                                 : -1);
@@ -317,7 +309,7 @@ class TableTab {
                 }
             }
         });
-        text_field = new Text(table, SWT.LEFT);
+        text_field = new Text(table, SWT.SINGLE | SWT.BORDER);
         text_field.addModifyListener(new ModifyListener() {
             public void modifyText(ModifyEvent event)
             {
@@ -325,17 +317,14 @@ class TableTab {
                         && edit_col < table.getColumnCount()) {
                     field_editor.getItem().setText(edit_col,
                             text_field.getText());
-                    row[edit_row].updateEntry();
                 }
             }
         });
         text_field.addFocusListener(new FocusAdapter() {
             public void focusLost(FocusEvent event)
             {
+                commitActiveEditor();
                 text_field.setVisible(false);
-                String new_text = text_field.getText();
-                if (!new_text.equals(edit_text))
-                    need_save = true;
             }
         });
         text_field.addTraverseListener(new TraverseListener() {
@@ -344,6 +333,7 @@ class TableTab {
                 switch (event.detail) {
                     case SWT.TRAVERSE_TAB_NEXT:
                     case SWT.TRAVERSE_TAB_PREVIOUS:
+                        commitActiveEditor();
                         hideField();
                         setEditField((event.detail == SWT.TRAVERSE_TAB_NEXT) ? 1
                                 : -1);
@@ -374,6 +364,7 @@ class TableTab {
         table.addMouseListener(new MouseAdapter() {
             public void mouseDown(MouseEvent event)
             {
+                commitActiveEditor();
                 Point pt = new Point(event.x, event.y);
                 TableItem item = table.getItem(pt);
                 if (item == null)
@@ -586,8 +577,9 @@ class TableTab {
         footer = new Text(bottom_container, SWT.CENTER | SWT.BORDER);
         footer.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
                 | GridData.VERTICAL_ALIGN_CENTER | GridData.GRAB_VERTICAL));
-        footer.addFocusListener(new FocusAdapter() {
-            public void focusGained(FocusEvent focusEvent)
+        footer.setEditable(false);
+        footer.addMouseListener(new MouseAdapter() {
+            public void mouseDown(MouseEvent event)
             {
                 showDesc(true);
             }
@@ -618,6 +610,7 @@ class TableTab {
         label.setEditable(false);
         setFont();
         name_up = place_up = birthday_up = need_save = false;
+        saved_footer_text = "";
         has_both_set = true;
         update_depth = 0;
         top_index = edit_row = edit_col = -1;
@@ -629,6 +622,7 @@ class TableTab {
             addChartButton();
         resetSearch();
         update();
+        showDesc(false);
         return table_container;
     }
 
@@ -666,8 +660,9 @@ class TableTab {
         }
         field.setText(edit_text);
         field.setEditable(true);
-        field.selectAll();
+        field.setSelection(field.getText().length());
         field.setBackground(color);
+        field.forceFocus();
         field.setFocus();
     }
 
@@ -894,6 +889,7 @@ class TableTab {
     {
         if (!initFieldIndex(true))
             return;
+        showDesc(false);
         setColumn();
         int index = getSelectedIndex();
         if (num_row[type] > 0 && index < 0)
@@ -941,6 +937,30 @@ class TableTab {
         place_container.setVisible(false);
         text_field.setVisible(false);
         label_field.setVisible(false);
+    }
+
+    private void commitActiveEditor()
+    {
+        if (committing_edit || edit_row < 0 || edit_row >= num_row[type]
+                || edit_col < 0 || edit_col >= table.getColumnCount())
+            return;
+        String new_text = (edit_col == place_index) ? place_field.getText()
+                : text_field.getText();
+        if (new_text.equals(edit_text))
+            return;
+        committing_edit = true;
+        try {
+            TableItem item = field_editor.getItem();
+            if (item != null && !item.isDisposed())
+                item.setText(edit_col, new_text);
+            row[edit_row].updateEntry();
+            row[edit_row].setData();
+            need_save = true;
+            setColumnSize();
+            edit_text = new_text;
+        } finally {
+            committing_edit = false;
+        }
     }
 
     private boolean inPlaceContainer()
@@ -1077,6 +1097,7 @@ class TableTab {
             top_index = index[ChartMode.isChartMode(ChartMode.PICK_MODE) ? DataSet.PICK
                     : DataSet.DATA];
             need_save = false;
+            syncSavedFooter();
             return top_index;
         } else {
             return Integer.MIN_VALUE;
@@ -1134,6 +1155,7 @@ class TableTab {
         desc.setText("");
         desc.resetUndo();
         footer.setText("");
+        syncSavedFooter();
         if (update)
             update();
     }
@@ -1223,21 +1245,22 @@ class TableTab {
         Moira.update(delay_update, true);
     }
 
-    public void saveFile(String file_name, boolean last)
+    public boolean saveFile(String file_name, boolean last)
     {
         ChartTab.getTab(ChartTab.NOTE_TAB).saveNote();
+        prepareCurrentEntryForSave();
         boolean direct = file_name != null;
         if (!direct) {
             file_name = Moira.getIO().saveFile(last);
             if (file_name == null || file_name.equals("none")) {
                 if (last)
-                    saveFile(null, false);
-                return;
+                    return saveFile(null, false);
+                return false;
             }
         }
         boolean single_entry = !Moira.isTableVisible();
         if (single_entry && selected_data[type] == null)
-            return;
+            return false;
         DataSet data_set = new DataSet();
         if (single_entry) {
             data_set.setMaxDataEntry(1, type);
@@ -1270,7 +1293,7 @@ class TableTab {
                 }
                 dialog.close();
                 if (!save_data && !save_pick)
-                    return;
+                    return false;
                 if (!save_data)
                     data_set.setMaxDataEntry(0, DataSet.DATA);
                 if (!save_pick)
@@ -1285,7 +1308,7 @@ class TableTab {
                         Moira.getIO().getFilePath(),
                         Resource.getPrefString("backup_dir"))) {
                     Message.warn(Resource.getString("dialog_backup_same"));
-                    return;
+                    return false;
                 }
             }
             data_set.saveData(Moira.getIO().getFilePath() + File.separator
@@ -1294,11 +1317,13 @@ class TableTab {
             Moira.getIO().setLastOpenFile(file_name);
         }
         need_save = false;
+        syncSavedFooter();
+        return true;
     }
 
     public boolean checkForSave()
     {
-        if (!need_save || !save.getEnabled()
+        if (!hasUnsavedChanges() || !save.getEnabled()
                 || Resource.getPrefInt("no_confirm_save") != 0)
             return true;
         ConfirmSaveDialog dialog = new ConfirmSaveDialog(Moira.getShell());
@@ -1307,8 +1332,22 @@ class TableTab {
             state = dialog.updateConfirmSave();
         dialog.close();
         if (state > 0)
-            saveFile(null, true);
+            return saveFile(null, true);
         return state >= 0;
+    }
+
+    public boolean checkForSaveOnClose()
+    {
+        if (!hasUnsavedChanges())
+            return true;
+        ChartTab.hideTip();
+        MessageBox mesg = new MessageBox(Moira.getShell(), SWT.ICON_QUESTION
+                | SWT.YES | SWT.NO);
+        mesg.setMessage(Resource.getString("dialog_need_to_save"));
+        int state = mesg.open();
+        if (state == SWT.YES)
+            return saveFile(null, true);
+        return state == SWT.NO;
     }
 
     private void removeSelection(boolean warn)
@@ -1689,6 +1728,14 @@ class TableTab {
         bottom_container.update();
         container.update();
         container.redraw();
+        Display.getCurrent().asyncExec(new Runnable() {
+            public void run()
+            {
+                if (table == null || table.isDisposed())
+                    return;
+                refreshTableView();
+            }
+        });
     }
 
     public void setGroupName()
@@ -1861,26 +1908,198 @@ class TableTab {
     {
         Color fg_color = ColorManager.getColor("table_font_color");
         bg_color = ColorManager.getColor("table_background_color");
+        grid_color = ColorManager.getColor(0x666666);
         if (fg_color != table.getForeground()) {
             table.setForeground(fg_color);
             place_field.setForeground(fg_color);
             text_field.setForeground(fg_color);
             label_field.setForeground(fg_color);
         }
-        if (bg_color != table.getBackground()) {
-            table.setBackground(bg_color);
-            chart_type.setBackground(bg_color);
-            footer.setBackground(bg_color);
-        }
-        odd_row_bg_color = ColorManager.getColor("table_odd_row_bg_color");
+        Color table_bg = Display.getCurrent().getSystemColor(SWT.COLOR_WHITE);
+        if (table_bg != table.getBackground())
+            table.setBackground(table_bg);
+        chart_type.setBackground(bg_color);
+        footer.setBackground(bg_color);
+        bg_color = table_bg;
+        odd_row_bg_color = table_bg;
         hilite_bg_color = ColorManager.getColor("table_hilite_bg_color");
+        for (int i = 0; i < table.getItemCount(); i++) {
+            TableItem item = table.getItem(i);
+            item.setBackground(getRowColor((i % 2) == 1));
+        }
+        table.redraw();
         desc.updateAttribute(false);
+    }
+
+    private void refreshTableView()
+    {
+        if (table.isDisposed() || table.isEnabled())
+            return;
+        if (table.getClientArea().width <= 0)
+            return;
+        edit_row = edit_col = -1;
+        table.setRedraw(false);
+        if (top_index >= 0 && top_index < table.getItemCount()) {
+            showEntry(top_index, false);
+            top_index = -1;
+        }
+        hideField();
+        table.setEnabled(true);
+        setColumnSize();
+        setButtonEditors(false);
+        if (!table.getLinesVisible())
+            table.setLinesVisible(true);
+        table.update();
+        table.setRedraw(true);
+    }
+
+    private Color getRowColor(boolean odd)
+    {
+        return odd ? odd_row_bg_color : bg_color;
+    }
+
+    private void drawGridLines(GC draw_gc)
+    {
+        if (grid_color == null || column == null || table.isDisposed())
+            return;
+        Rectangle area = table.getClientArea();
+        if (area.width <= 0 || area.height <= 0)
+            return;
+        Color old_fg = draw_gc.getForeground();
+        Color old_bg = draw_gc.getBackground();
+        draw_gc.setForeground(grid_color);
+        draw_gc.setBackground(grid_color);
+        int top = area.y;
+        int bottom = area.y + area.height;
+        draw_gc.fillRectangle(area.x, top, area.width, 1);
+        int x = area.x;
+        draw_gc.fillRectangle(area.x, top, 1, area.height);
+        for (int i = 0; i < column.length; i++) {
+            x += column[i].getWidth();
+            draw_gc.fillRectangle(x - 1, top, 1, area.height);
+        }
+        int row_height = Math.max(1, table.getItemHeight());
+        int first_y = top;
+        if (table.getItemCount() > 0) {
+            Rectangle bounds = table.getItem(Math.min(table.getTopIndex(),
+                    table.getItemCount() - 1)).getBounds(0);
+            first_y = Math.max(top, bounds.y);
+        }
+        for (int y = first_y; y < bottom; y += row_height) {
+            draw_gc.fillRectangle(area.x, y, area.width, 1);
+        }
+        draw_gc.setForeground(old_fg);
+        draw_gc.setBackground(old_bg);
     }
 
     public void dispose()
     {
         gc.dispose();
         font.dispose();
+    }
+
+    private boolean hasUnsavedChanges()
+    {
+        return need_save || !getCurrentFooterText().equals(saved_footer_text)
+                || hasCurrentEntryChanges();
+    }
+
+    private String getCurrentFooterText()
+    {
+        return (desc == null) ? "" : desc.getText();
+    }
+
+    private void syncSavedFooter()
+    {
+        saved_footer_text = getCurrentFooterText();
+    }
+
+    private void prepareCurrentEntryForSave()
+    {
+        DataEntry current = getCurrentEntrySnapshot();
+        if (!hasMeaningfulCurrentEntry(current))
+            return;
+        int index = getSelectedIndex();
+        if (index >= 0) {
+            replaceEntry(index, current);
+            return;
+        }
+        index = findEntryByName(type, current.getName());
+        if (index >= 0) {
+            replaceEntry(index, current);
+            return;
+        }
+        int new_index = addEntry(current, type, false, false);
+        if (new_index >= 0) {
+            selected_data[type] = row_data[type][new_index];
+            update();
+        }
+    }
+
+    private void replaceEntry(int index, DataEntry entry)
+    {
+        entry.setSelected(row_data[type][index].getSelected());
+        row_data[type][index] = entry;
+        selected_data[type] = entry;
+        if (row[index] == null)
+            row[index] = new Entry(entry);
+        else
+            row[index].entry = entry;
+        row[index].setData();
+        table.redraw();
+    }
+
+    private int findEntryByName(int iter, String name)
+    {
+        if (name == null || name.equals(""))
+            return -1;
+        for (int i = 0; i < num_row[iter]; i++) {
+            if (name.equals(row_data[iter][i].getName()))
+                return i;
+        }
+        return -1;
+    }
+
+    private boolean hasCurrentEntryChanges()
+    {
+        DataEntry current = getCurrentEntrySnapshot();
+        DataEntry selected = selected_data[type];
+        if (selected == null)
+            return hasMeaningfulCurrentEntry(current);
+        return !current.equals(selected, false);
+    }
+
+    private boolean hasMeaningfulCurrentEntry(DataEntry entry)
+    {
+        return !entry.getName().equals("") || entry.getNote(true) != null
+                || entry.getOverride() != null;
+    }
+
+    private DataEntry getCurrentEntrySnapshot()
+    {
+        ChartTab tab = Moira.getChart();
+        DataEntry entry = new DataEntry();
+        int[] date = new int[5];
+        LocationSpinner loc = tab.getSpinner();
+        entry.setName(tab.getName());
+        entry.setSex(tab.getSex());
+        if (ChartMode.isChartMode(ChartMode.PICK_MODE)) {
+            entry.setChoice(tab.getDaySet());
+            entry.setMountainPos(tab.getMountainPos());
+        } else {
+            tab.getNowDate(date);
+            entry.setNowDay(date);
+        }
+        entry.setCountry(loc.getCountryName());
+        entry.setCity(loc.getCityName());
+        entry.setZone(loc.getZoneName());
+        tab.getBirthDate(date);
+        entry.setBirthDay(date);
+        entry.setOverride(ChartTab.getData().getOverrideString());
+        String note = ChartTab.getTab(ChartTab.NOTE_TAB).getNote(false);
+        if (ChartTab.getTab(ChartTab.NOTE_TAB).hasValidNote(note))
+            entry.setNote(note);
+        return entry;
     }
 
     static public Button getButton(TableEditor editor)

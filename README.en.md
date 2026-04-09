@@ -125,7 +125,7 @@ Unsigned local packaging:
 Outputs:
 
 - `dist/Moira.app`
-- `dist/Moira-1.50.1.dmg`
+- `dist/Moira-1.50.2.dmg`
 
 ## Sign And Notarize
 

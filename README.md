@@ -18,7 +18,6 @@ This repository turns the classic Moira Java/SWT desktop app into something you 
 [![Latest Release](https://img.shields.io/badge/GitHub-Latest%20Release-18181b?style=for-the-badge&logo=github)](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases/latest)
 [![Chinese Docs](https://img.shields.io/badge/Docs-中文完整版-0f766e?style=for-the-badge)](./README.zh-CN.md)
 [![English Docs](https://img.shields.io/badge/Docs-English%20Guide-2563eb?style=for-the-badge)](./README.en.md)
-[![Release Notes](https://img.shields.io/badge/Notes-v1.50.1-7c3aed?style=for-the-badge)](./docs/releases/v1.50.1.md)
 
 </div>
 

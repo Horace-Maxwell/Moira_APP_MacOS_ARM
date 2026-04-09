@@ -177,7 +177,7 @@ This repository explicitly acknowledges the contribution of `tutorial0/moira_mac
 
 ## License
 
-The repository preserves the historical GPL licensing text in [`LICENSE`](./LICENSE). Additional bundled third-party license texts remain in the source tree.
+The repository keeps a single main root license entry in [`LICENSE`](./LICENSE), preserving the historical Moira GPL text. Third-party notices are separated into [docs/licenses/LGPL-2.1.txt](./docs/licenses/LGPL-2.1.txt) and [docs/licenses/Swiss-Ephemeris-SEPL-0.2.txt](./docs/licenses/Swiss-Ephemeris-SEPL-0.2.txt).
 
 ## Status
 

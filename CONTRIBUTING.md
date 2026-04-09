@@ -55,4 +55,4 @@ Please describe:
 
 ## Attribution
 
-When touching historical code, preserve upstream notices and keep existing license files intact.
+When touching historical code, preserve upstream notices and keep the main GPL license plus any bundled third-party notices accurate.

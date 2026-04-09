@@ -157,7 +157,7 @@ export MOIRA_APPLE_TEAM_ID="TEAMID"
 
 ## 许可证
 
-本仓库保留历史 GPL 许可证文本，见 [`LICENSE`](./LICENSE)。源码树中的其他第三方许可证文本也一并保留。
+根目录主许可证保留为 [`LICENSE`](./LICENSE)，沿用历史 Moira 的 GPL 文本。第三方许可证说明单独整理在 [docs/licenses/LGPL-2.1.txt](./docs/licenses/LGPL-2.1.txt) 和 [docs/licenses/Swiss-Ephemeris-SEPL-0.2.txt](./docs/licenses/Swiss-Ephemeris-SEPL-0.2.txt)。
 
 ## 当前定位
 

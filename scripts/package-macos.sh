@@ -123,7 +123,7 @@ rm -f "$DIST_DIR"/"$APP_NAME"*.dmg
 jpackage_dmg=(
   "$JPACKAGE_BIN" --type dmg --name "$APP_NAME" --app-version "$APP_VERSION"
   --dest "$DIST_DIR"
-  --app-image "$APP_IMAGE" --license-file "$ROOT_DIR/GPL_license.txt"
+  --app-image "$APP_IMAGE" --license-file "$ROOT_DIR/LICENSE"
 )
 if (( ${#sign_args[@]} > 0 )); then
   jpackage_dmg+=( "${sign_args[@]}" )

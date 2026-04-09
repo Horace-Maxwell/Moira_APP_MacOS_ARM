@@ -60,9 +60,9 @@ if [[ -f "$ROOT_DIR/splash.png" ]]; then
   cp "$ROOT_DIR"/splash.png "$APP_DIR/"
 fi
 cp "$ROOT_DIR"/WMM*.COF "$APP_DIR/"
-cp "$ROOT_DIR"/GPL_license.txt "$APP_DIR/"
-cp "$ROOT_DIR"/LGPL_license.txt "$APP_DIR/"
-cp "$ROOT_DIR"/SEPL_license.txt "$APP_DIR/"
+cp "$ROOT_DIR"/LICENSE "$APP_DIR/"
+cp "$ROOT_DIR"/docs/licenses/LGPL-2.1.txt "$APP_DIR/"
+cp "$ROOT_DIR"/docs/licenses/Swiss-Ephemeris-SEPL-0.2.txt "$APP_DIR/"
 touch "$APP_DIR/.package"
 
 cat > "$LAUNCHER" <<'EOF'

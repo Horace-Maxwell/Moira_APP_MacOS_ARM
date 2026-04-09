@@ -1,77 +1,124 @@
 <div align="center">
 
-# Moira for macOS Apple Silicon
-
-Signed, notarized, Apple Silicon desktop distribution for the classic Moira Java/SWT workstation
-
 简体中文 | [English](./README.en.md)
 
-[![release](https://img.shields.io/github/v/release/Horace-Maxwell/Moira_APP_MacOS_ARM?display_name=release&label=release)](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases)
-[![platform](https://img.shields.io/badge/platform-macOS%20Apple%20Silicon-111111)](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM)
-[![runtime](https://img.shields.io/badge/runtime-bundled%20arm64%20JRE-0A84FF)](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases)
-[![source](https://img.shields.io/badge/source%20compat-Java%2011-F59E0B)](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM)
-[![distribution](https://img.shields.io/badge/distribution-Developer%20ID%20%2B%20Notarized-16A34A)](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases)
-[![license](https://img.shields.io/github/license/Horace-Maxwell/Moira_APP_MacOS_ARM)](./LICENSE)
+# Moira for macOS Apple Silicon
 
-[Latest Release](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases/latest) |
-[Releases](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases) |
-[中文说明](./README.zh-CN.md) |
-[English Guide](./README.en.md) |
-[Contributing](./CONTRIBUTING.md) |
-[Security](./SECURITY.md)
+把一套老牌的 Moira Java/SWT 桌面程序，认真整理成今天的 Apple Silicon Mac 还能直接下载安装、稳定打开、继续维护的样子。
+
+This repository turns the classic Moira Java/SWT desktop app into something you can still install, launch, and maintain comfortably on today's Apple Silicon Macs.
+
+[![release](https://img.shields.io/github/v/release/Horace-Maxwell/Moira_APP_MacOS_ARM?display_name=release&label=release&style=flat-square)](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases)
+[![stars](https://img.shields.io/github/stars/Horace-Maxwell/Moira_APP_MacOS_ARM?style=flat-square)](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/stargazers)
+[![license](https://img.shields.io/github/license/Horace-Maxwell/Moira_APP_MacOS_ARM?style=flat-square)](./LICENSE)
+[![platform](https://img.shields.io/badge/platform-macOS%20Apple%20Silicon-111111?style=flat-square)](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM)
+[![runtime](https://img.shields.io/badge/runtime-bundled%20arm64%20JRE-0A84FF?style=flat-square)](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases)
+[![distribution](https://img.shields.io/badge/distribution-Developer%20ID%20%2B%20Notarized-1f9d55?style=flat-square)](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases)
+
+[![Chinese Guide](https://img.shields.io/badge/read-中文说明-0f766e?style=flat-square)](./README.zh-CN.md)
+[![English Guide](https://img.shields.io/badge/read-English%20Guide-2563eb?style=flat-square)](./README.en.md)
+[![Release Notes](https://img.shields.io/badge/docs-v1.50.0%20Release%20Notes-7c3aed?style=flat-square)](./docs/releases/v1.50.0.md)
+[![Code of Conduct](https://img.shields.io/badge/community-Code%20of%20Conduct-f59e0b?style=flat-square)](./CODE_OF_CONDUCT.md)
+[![Contributing](https://img.shields.io/badge/contributing-guide-0891b2?style=flat-square)](./CONTRIBUTING.md)
+[![Security](https://img.shields.io/badge/security-policy-dc2626?style=flat-square)](./SECURITY.md)
+
+[![Build Script](https://img.shields.io/badge/script-build--dev.sh-334155?style=flat-square)](./scripts/build-dev.sh)
+[![Package Script](https://img.shields.io/badge/script-package--macos.sh-1d4ed8?style=flat-square)](./scripts/package-macos.sh)
+[![Icon Script](https://img.shields.io/badge/script-make--icns.sh-475569?style=flat-square)](./scripts/make-icns.sh)
+
+[![Latest Release](https://img.shields.io/badge/GitHub-Latest%20Release-18181b?style=for-the-badge&logo=github)](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases/latest)
+[![Chinese Docs](https://img.shields.io/badge/Docs-中文完整版-0f766e?style=for-the-badge)](./README.zh-CN.md)
+[![English Docs](https://img.shields.io/badge/Docs-English%20Guide-2563eb?style=for-the-badge)](./README.en.md)
+[![Release Notes](https://img.shields.io/badge/Notes-v1.50.0-7c3aed?style=for-the-badge)](./docs/releases/v1.50.0.md)
 
 </div>
 
-This repository publishes a maintained Apple Silicon port of Moira with a ready-to-install macOS app bundle, bundled arm64 runtime, Java 11 source compatibility, and a reproducible local packaging workflow.
-
 ![Moira on macOS Apple Silicon](./docs/assets/moira-app.png)
 
-## Start Here / 先看这里
+## 这是什么
 
-| Audience | What to do |
-| --- | --- |
-| End users | Download the latest signed installer from [GitHub Releases](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases/latest). Open the `.dmg`, drag `Moira.app` into `Applications`, then launch it like a normal macOS app. |
-| Developers | Read the full setup guides: [English](./README.en.md) or [简体中文](./README.zh-CN.md). Source builds remain Java 11 compatible and can be launched directly from the repository. |
+如果你只是想在 M 系列 Mac 上把 Moira 安安稳稳装起来，这个仓库就是给你准备的。
 
-## Highlights / 核心特性
+If all you want is a dependable Moira build for an M-series Mac, this repository is meant for exactly that.
 
-- Signed and notarized `Moira.app` and `.dmg` for Apple Silicon Macs.
-- Bundled arm64 Java runtime for end users, without requiring a local JDK.
-- Restored aspect marker overlays without using the SWT XOR drawing path that crashes on modern macOS builds.
-- HiDPI chart rendering path for Retina displays in high-resolution UI mode.
-- Opaque, readable right-side entry panel for date, time, and location controls.
-- Writable runtime data model based on `~/Library/Application Support/Moira`, so the signed app does not try to mutate its own bundle.
-- Reproducible source build and packaging scripts for local development, signing, notarization, and release generation.
+如果你还想继续维护源码，它也把开发链路一并整理好了，不需要再去拼凑一堆零散环境。
 
-## What This Repository Adds / 这个仓库额外做了什么
+If you also want to keep hacking on the code, the source build and packaging flow are here too, instead of living in scattered one-off machine setups.
 
-- Converts the Apple Silicon compatibility work into a real desktop release flow.
-- Preserves Java 11 source compatibility while producing a self-contained macOS app.
-- Packages source, resources, icons, runtime, signing, notarization, and release assets in one place.
-- Documents the runtime path model, build process, release workflow, and platform constraints in both Chinese and English.
+## 这个仓库补上的，不只是“能跑”
 
-## Project Lineage / 项目来源
+这里做的事情，核心不是把工程勉强从 IDE 里点亮，而是把它整理成一个更像真正桌面软件的发布仓库。
 
-- Original desktop application: Moira by At Home Projects.
-- Apple Silicon IDEA-oriented reference port: [tutorial0/moira_macOS](https://github.com/tutorial0/moira_macOS).
-- This repository builds on that groundwork and adds desktop release engineering, runtime packaging, platform fixes, UI cleanup, HiDPI rendering, GitHub Releases distribution, and repeatable notarized delivery.
+The point here is not merely getting the project to open in an IDE, but turning it into something that behaves like a real desktop release.
 
-Special thanks to the maintainer of `tutorial0/moira_macOS` for preserving a practical Apple Silicon source tree, resolving the original SWT dependency setup for IntelliJ IDEA, and documenting the first workable M-series development path.
+- 恢复了角距标注线功能，同时绕开现代 macOS 上容易把 SWT 绘图路径搞崩的 XOR 即时绘制方式。
+- 高分屏模式不再糊成一片，Retina 下的图盘渲染清楚很多。
+- 右侧日期、时间、地点输入区重新做了不透明和对比度处理，不会再漂在盘面上看不清。
+- 运行时读写路径分离，签名后的 `.app` 不需要再往自己包内写数据。
+- 开发构建、App 打包、图标转换、签名、公证这几条链都整理成了脚本。
 
-## Technical Scope / 技术范围
+- Aspect marker overlays are back, without using the crash-prone SWT XOR drawing path on modern macOS.
+- HiDPI rendering is much cleaner on Retina displays.
+- The right-side date, time, and location panel is readable again instead of fading into the chart.
+- Runtime reads and writes are separated so the signed `.app` does not try to mutate its own bundle.
+- Build, icon, packaging, signing, and notarization steps are scripted instead of being tribal knowledge.
+
+## 先从哪里开始
+
+### 普通使用
+
+如果你只是想下载安装：去 [Latest Release](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases/latest)，下载 `Moira-*.dmg`，打开后把 `Moira.app` 拖进 `Applications`。
+
+If you just want to use it: head to [Latest Release](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases/latest), download `Moira-*.dmg`, then drag `Moira.app` into `Applications`.
+
+### 开发维护
+
+如果你要编译源码：先看 [README.zh-CN.md](./README.zh-CN.md) 或 [README.en.md](./README.en.md)。源码兼容目标还是 Java 11，开发入口也已经整理好了。
+
+If you want to build from source: start with [README.zh-CN.md](./README.zh-CN.md) or [README.en.md](./README.en.md). The source compatibility target is still Java 11, and the development entry points are already documented.
+
+## 仓库里这些文件值得先看
+
+- [README.zh-CN.md](./README.zh-CN.md): 中文完整说明，适合直接跟着做。
+- [README.en.md](./README.en.md): English build and packaging guide.
+- [docs/releases/v1.50.0.md](./docs/releases/v1.50.0.md): 这一版发布改了什么，适合快速浏览。
+- [scripts/build-dev.sh](./scripts/build-dev.sh): 本地开发构建和直接启动。
+- [scripts/package-macos.sh](./scripts/package-macos.sh): `.app` / `.dmg` 打包，以及签名、公证入口。
+- [scripts/make-icns.sh](./scripts/make-icns.sh): 旧图标转 macOS `.icns`。
+- [CONTRIBUTING.md](./CONTRIBUTING.md): 如果你准备提改动，先看这个会省很多来回沟通。
+- [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md): 社区协作约定。
+- [SECURITY.md](./SECURITY.md): 安全问题反馈方式。
+
+## 项目来源
+
+原始桌面程序来自 At Home Projects。
+
+The original desktop application was created by At Home Projects.
+
+Apple Silicon 源码整理和 IntelliJ IDEA 可运行基础来自 [tutorial0/moira_macOS](https://github.com/tutorial0/moira_macOS)。这个仓库是在那份工作之上，继续把“能开发”推进到了“能发布、能分发、能长期维护”。
+
+The Apple Silicon source-tree preservation and IntelliJ-friendly setup came from [tutorial0/moira_macOS](https://github.com/tutorial0/moira_macOS). This repository builds on that work and carries it further into release engineering, distribution, and long-term maintenance.
+
+## 技术范围
+
+- 目标平台：macOS on Apple Silicon (`arm64`)
+- 源码兼容目标：Java 11
+- 桌面 UI 栈：Java + SWT
+- 发布产物：签名的 `Moira.app`、公证过的 `.dmg`
+- 用户可写目录：`~/Library/Application Support/Moira`
 
 - Target platform: macOS on Apple Silicon (`arm64`)
 - Source compatibility target: Java 11
 - Desktop UI stack: Java + SWT
-- Release format: signed `Moira.app`, notarized `.dmg`, optional zipped `.app` for direct download
-- User-writable data directory: `~/Library/Application Support/Moira`
+- Release artifacts: signed `Moira.app`, notarized `.dmg`
+- User-writable directory: `~/Library/Application Support/Moira`
 
-## License / 许可证
+## 许可证
 
-This repository keeps the historical Moira licensing model and ships the upstream GPL text in [`LICENSE`](./LICENSE). Additional third-party license texts included in the source tree remain preserved as-is.
+目前根目录只保留主许可证 [`LICENSE`](./LICENSE)，沿用历史 Moira 的 GPL 文本。
 
-## Notes / 说明
+The repository root now keeps a single main license entry, [`LICENSE`](./LICENSE), which preserves the historical Moira GPL text.
 
-- This is an engineering and packaging repository. It is focused on runtime stability, Apple Silicon compatibility, and desktop delivery quality.
-- It is not an official At Home Projects release.
-- For full build, packaging, and runtime notes, continue to [README.en.md](./README.en.md) or [README.zh-CN.md](./README.zh-CN.md).
+第三方许可证说明单独放在 [docs/licenses/LGPL-2.1.txt](./docs/licenses/LGPL-2.1.txt) 和 [docs/licenses/Swiss-Ephemeris-SEPL-0.2.txt](./docs/licenses/Swiss-Ephemeris-SEPL-0.2.txt)。
+
+Third-party license notices are kept separately in [docs/licenses/LGPL-2.1.txt](./docs/licenses/LGPL-2.1.txt) and [docs/licenses/Swiss-Ephemeris-SEPL-0.2.txt](./docs/licenses/Swiss-Ephemeris-SEPL-0.2.txt).

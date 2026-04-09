@@ -15,17 +15,6 @@ This repository turns the classic Moira Java/SWT desktop app into something you 
 [![runtime](https://img.shields.io/badge/runtime-bundled%20arm64%20JRE-0A84FF?style=flat-square)](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases)
 [![distribution](https://img.shields.io/badge/distribution-Developer%20ID%20%2B%20Notarized-1f9d55?style=flat-square)](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases)
 
-[![Chinese Guide](https://img.shields.io/badge/read-中文说明-0f766e?style=flat-square)](./README.zh-CN.md)
-[![English Guide](https://img.shields.io/badge/read-English%20Guide-2563eb?style=flat-square)](./README.en.md)
-[![Release Notes](https://img.shields.io/badge/docs-v1.50.0%20Release%20Notes-7c3aed?style=flat-square)](./docs/releases/v1.50.0.md)
-[![Code of Conduct](https://img.shields.io/badge/community-Code%20of%20Conduct-f59e0b?style=flat-square)](./CODE_OF_CONDUCT.md)
-[![Contributing](https://img.shields.io/badge/contributing-guide-0891b2?style=flat-square)](./CONTRIBUTING.md)
-[![Security](https://img.shields.io/badge/security-policy-dc2626?style=flat-square)](./SECURITY.md)
-
-[![Build Script](https://img.shields.io/badge/script-build--dev.sh-334155?style=flat-square)](./scripts/build-dev.sh)
-[![Package Script](https://img.shields.io/badge/script-package--macos.sh-1d4ed8?style=flat-square)](./scripts/package-macos.sh)
-[![Icon Script](https://img.shields.io/badge/script-make--icns.sh-475569?style=flat-square)](./scripts/make-icns.sh)
-
 [![Latest Release](https://img.shields.io/badge/GitHub-Latest%20Release-18181b?style=for-the-badge&logo=github)](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases/latest)
 [![Chinese Docs](https://img.shields.io/badge/Docs-中文完整版-0f766e?style=for-the-badge)](./README.zh-CN.md)
 [![English Docs](https://img.shields.io/badge/Docs-English%20Guide-2563eb?style=for-the-badge)](./README.en.md)
@@ -35,7 +24,7 @@ This repository turns the classic Moira Java/SWT desktop app into something you 
 
 ![Moira on macOS Apple Silicon](./docs/assets/moira-app.png)
 
-## 这是什么
+## 这是什么 / What This Is
 
 如果你只是想在 M 系列 Mac 上把 Moira 安安稳稳装起来，这个仓库就是给你准备的。
 
@@ -45,7 +34,7 @@ If all you want is a dependable Moira build for an M-series Mac, this repository
 
 If you also want to keep hacking on the code, the source build and packaging flow are here too, instead of living in scattered one-off machine setups.
 
-## 这个仓库补上的，不只是“能跑”
+## 这个仓库补上的，不只是“能跑” / What This Repository Adds
 
 这里做的事情，核心不是把工程勉强从 IDE 里点亮，而是把它整理成一个更像真正桌面软件的发布仓库。
 
@@ -63,33 +52,33 @@ The point here is not merely getting the project to open in an IDE, but turning 
 - Runtime reads and writes are separated so the signed `.app` does not try to mutate its own bundle.
 - Build, icon, packaging, signing, and notarization steps are scripted instead of being tribal knowledge.
 
-## 先从哪里开始
+## 先从哪里开始 / Where To Start
 
-### 普通使用
+### 普通使用 / For End Users
 
 如果你只是想下载安装：去 [Latest Release](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases/latest)，下载 `Moira-*.dmg`，打开后把 `Moira.app` 拖进 `Applications`。
 
 If you just want to use it: head to [Latest Release](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases/latest), download `Moira-*.dmg`, then drag `Moira.app` into `Applications`.
 
-### 开发维护
+### 开发维护 / For Developers
 
 如果你要编译源码：先看 [README.zh-CN.md](./README.zh-CN.md) 或 [README.en.md](./README.en.md)。源码兼容目标还是 Java 11，开发入口也已经整理好了。
 
 If you want to build from source: start with [README.zh-CN.md](./README.zh-CN.md) or [README.en.md](./README.en.md). The source compatibility target is still Java 11, and the development entry points are already documented.
 
-## 仓库里这些文件值得先看
+## 仓库里这些文件值得先看 / Files Worth Opening First
 
-- [README.zh-CN.md](./README.zh-CN.md): 中文完整说明，适合直接跟着做。
-- [README.en.md](./README.en.md): English build and packaging guide.
-- [docs/releases/v1.50.0.md](./docs/releases/v1.50.0.md): 这一版发布改了什么，适合快速浏览。
-- [scripts/build-dev.sh](./scripts/build-dev.sh): 本地开发构建和直接启动。
-- [scripts/package-macos.sh](./scripts/package-macos.sh): `.app` / `.dmg` 打包，以及签名、公证入口。
-- [scripts/make-icns.sh](./scripts/make-icns.sh): 旧图标转 macOS `.icns`。
-- [CONTRIBUTING.md](./CONTRIBUTING.md): 如果你准备提改动，先看这个会省很多来回沟通。
-- [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md): 社区协作约定。
-- [SECURITY.md](./SECURITY.md): 安全问题反馈方式。
+- [README.zh-CN.md](./README.zh-CN.md): 中文完整说明，适合直接跟着做。 English: the full Chinese guide if you want the most complete walkthrough first.
+- [README.en.md](./README.en.md): 英文构建与打包说明。 English: the dedicated English build and packaging guide.
+- [docs/releases/v1.50.0.md](./docs/releases/v1.50.0.md): 这一版发布改了什么，适合快速浏览。 English: a compact release note for this version.
+- [scripts/build-dev.sh](./scripts/build-dev.sh): 本地开发构建和直接启动。 English: build locally and launch the app from source.
+- [scripts/package-macos.sh](./scripts/package-macos.sh): `.app` / `.dmg` 打包，以及签名、公证入口。 English: package the macOS app and run signing or notarization.
+- [scripts/make-icns.sh](./scripts/make-icns.sh): 旧图标转 macOS `.icns`。 English: convert the legacy icon into a macOS `.icns`.
+- [CONTRIBUTING.md](./CONTRIBUTING.md): 如果你准备提改动，先看这个会省很多来回沟通。 English: contribution expectations and workflow.
+- [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md): 社区协作约定。 English: community conduct guidelines.
+- [SECURITY.md](./SECURITY.md): 安全问题反馈方式。 English: where and how to report security issues.
 
-## 项目来源
+## 项目来源 / Project Lineage
 
 原始桌面程序来自 At Home Projects。
 
@@ -99,7 +88,7 @@ Apple Silicon 源码整理和 IntelliJ IDEA 可运行基础来自 [tutorial0/moi
 
 The Apple Silicon source-tree preservation and IntelliJ-friendly setup came from [tutorial0/moira_macOS](https://github.com/tutorial0/moira_macOS). This repository builds on that work and carries it further into release engineering, distribution, and long-term maintenance.
 
-## 技术范围
+## 技术范围 / Technical Scope
 
 - 目标平台：macOS on Apple Silicon (`arm64`)
 - 源码兼容目标：Java 11
@@ -113,7 +102,7 @@ The Apple Silicon source-tree preservation and IntelliJ-friendly setup came from
 - Release artifacts: signed `Moira.app`, notarized `.dmg`
 - User-writable directory: `~/Library/Application Support/Moira`
 
-## 许可证
+## 许可证 / License
 
 目前根目录只保留主许可证 [`LICENSE`](./LICENSE)，沿用历史 Moira 的 GPL 文本。
 

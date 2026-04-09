@@ -84,9 +84,9 @@ If you want to build from source: start with [README.zh-CN.md](./README.zh-CN.md
 
 The original desktop application was created by At Home Projects.
 
-Apple Silicon 源码整理和 IntelliJ IDEA 可运行基础来自 [tutorial0/moira_macOS](https://github.com/tutorial0/moira_macOS)。这个仓库是在那份工作之上，继续把“能开发”推进到了“能发布、能分发、能长期维护”。
+Apple Silicon 源码整理和 IntelliJ IDEA 可运行基础来自 [tutorial0/moira_macOS](https://github.com/tutorial0/moira_macOS)。这里也特别感谢这个仓库的贡献: 它保留了 Apple Silicon 下第一版真正可运行、可调试的工程基础，让后续的修复、打包、发布和长期维护都有了可靠起点。
 
-The Apple Silicon source-tree preservation and IntelliJ-friendly setup came from [tutorial0/moira_macOS](https://github.com/tutorial0/moira_macOS). This repository builds on that work and carries it further into release engineering, distribution, and long-term maintenance.
+The Apple Silicon source-tree preservation and IntelliJ-friendly setup came from [tutorial0/moira_macOS](https://github.com/tutorial0/moira_macOS). Special thanks to that repository for providing the first practical, debuggable base on Apple Silicon, which made the later fixes, packaging, release work, and long-term maintenance possible.
 
 ## 技术范围 / Technical Scope
 

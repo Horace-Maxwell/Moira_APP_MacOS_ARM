@@ -1,6 +1,6 @@
 # Moira for macOS Apple Silicon
 
-面向 Apple Silicon Mac 的 Moira 桌面发行版，提供签名、公证后的安装包，以及兼容 Java 11 的源码构建流程。
+面向 Apple Silicon Mac 的 Moira 桌面发行版，提供签名、公证后的安装包，以及兼容 Java 11 的源码构建流程。最新 Release 里也附带 `Moira-jre.exe`，方便 Windows 用户直接找到现成安装包。
 
 [最新发布](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases/latest) |
 [English](./README.en.md) |
@@ -66,12 +66,22 @@
 
 ## 面向普通用户的安装方式
 
+### macOS
+
 1. 打开 [最新发布页](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases/latest)
 2. 下载 `Moira-*.dmg`
 3. 打开镜像，把 `Moira.app` 拖到 `Applications`
 4. 像普通 macOS 软件一样启动
 
 如果你更喜欢直接下载 App 压缩包，Release 里也会附带一个 zip 版 `.app`。
+
+### Windows
+
+1. 打开 [最新发布页](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases/latest)
+2. 下载 `Moira-jre.exe`
+3. 在 Windows 中运行安装包
+
+这样 Release 页面里会同时提供 macOS 的 `.dmg` / `.app.zip` 和 Windows 的 `Moira-jre.exe`，按系统直接选就可以。
 
 ## 面向开发者的源码构建
 

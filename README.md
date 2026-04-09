@@ -34,6 +34,10 @@ If all you want is a dependable Moira build for an M-series Mac, this repository
 
 If you also want to keep hacking on the code, the source build and packaging flow are here too, instead of living in scattered one-off machine setups.
 
+最新 Release 里除了 macOS 的 `Moira-*.dmg` 和 `Moira.app.zip`，也一并放了 Windows 安装包 `Moira-jre.exe`，方便不同系统的用户直接找到可下载版本。
+
+Besides the macOS `Moira-*.dmg` and `Moira.app.zip`, the latest release also includes the Windows installer `Moira-jre.exe` so users on either platform can find a download more easily.
+
 ## 这个仓库补上的，不只是“能跑” / What This Repository Adds
 
 这里做的事情，核心不是把工程勉强从 IDE 里点亮，而是把它整理成一个更像真正桌面软件的发布仓库。
@@ -56,9 +60,9 @@ The point here is not merely getting the project to open in an IDE, but turning 
 
 ### 普通使用 / For End Users
 
-如果你只是想下载安装：去 [Latest Release](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases/latest)，下载 `Moira-*.dmg`，打开后把 `Moira.app` 拖进 `Applications`。
+如果你只是想下载安装：去 [Latest Release](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases/latest)。macOS 用户可以下载 `Moira-*.dmg` 或 `Moira.app.zip`；Windows 用户可以直接下载 `Moira-jre.exe`。
 
-If you just want to use it: head to [Latest Release](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases/latest), download `Moira-*.dmg`, then drag `Moira.app` into `Applications`.
+If you just want to install it: head to [Latest Release](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases/latest). macOS users can choose `Moira-*.dmg` or `Moira.app.zip`, while Windows users can download `Moira-jre.exe` directly.
 
 ### 开发维护 / For Developers
 
@@ -93,13 +97,13 @@ The Apple Silicon source-tree preservation and IntelliJ-friendly setup came from
 - 目标平台：macOS on Apple Silicon (`arm64`)
 - 源码兼容目标：Java 11
 - 桌面 UI 栈：Java + SWT
-- 发布产物：签名的 `Moira.app`、公证过的 `.dmg`
+- 发布产物：签名的 `Moira.app`、公证过的 `.dmg`，以及一并提供在 Release 里的 `Moira-jre.exe`
 - 用户可写目录：`~/Library/Application Support/Moira`
 
 - Target platform: macOS on Apple Silicon (`arm64`)
 - Source compatibility target: Java 11
 - Desktop UI stack: Java + SWT
-- Release artifacts: signed `Moira.app`, notarized `.dmg`
+- Release artifacts: signed `Moira.app`, notarized `.dmg`, plus `Moira-jre.exe` published alongside them in the release assets
 - User-writable directory: `~/Library/Application Support/Moira`
 
 ## 许可证 / License

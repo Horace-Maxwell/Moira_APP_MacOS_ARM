@@ -1,6 +1,6 @@
 # Moira for macOS Apple Silicon
 
-Signed, notarized, Apple Silicon desktop distribution for the classic Moira Java/SWT workstation.
+Signed, notarized, Apple Silicon desktop distribution for the classic Moira Java/SWT workstation. The latest release also includes `Moira-jre.exe` so Windows users can find a ready-made installer in the same place.
 
 [Latest Release](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases/latest) |
 [中文说明](./README.zh-CN.md) |
@@ -72,12 +72,22 @@ The repository includes:
 
 ## Install For End Users
 
+### macOS
+
 1. Open [Latest Release](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases/latest).
 2. Download `Moira-*.dmg`.
 3. Open the disk image and move `Moira.app` into `Applications`.
 4. Launch `Moira.app`.
 
 If you prefer a direct app archive instead of a disk image, the release also publishes a zipped `.app` bundle.
+
+### Windows
+
+1. Open [Latest Release](https://github.com/Horace-Maxwell/Moira_APP_MacOS_ARM/releases/latest).
+2. Download `Moira-jre.exe`.
+3. Run the installer on Windows.
+
+The release page therefore carries macOS `.dmg` and `.app.zip` assets alongside the Windows installer, making the download options easier to spot.
 
 ## Build From Source
 

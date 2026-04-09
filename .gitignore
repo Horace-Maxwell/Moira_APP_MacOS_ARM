@@ -1,0 +1,16 @@
+.DS_Store
+.idea/
+*.iml
+
+build/
+dist/
+out/
+
+*.class
+*.log
+
+CertificateSigningRequest.certSigningRequest
+developerID_application.cer
+*.p12
+*.pfx
+*.mobileprovision
